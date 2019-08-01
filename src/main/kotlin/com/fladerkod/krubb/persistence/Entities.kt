@@ -11,7 +11,7 @@ interface MongoEntity<R> {
 }
 
 @Document("recipe")
-data class RecipeEntity(@Id val id: String, val name: String, val description: String) : MongoEntity<Recipe> {
+data class RecipeEntity(@Id val id: String, val name: String, val description: String?) : MongoEntity<Recipe> {
     constructor(recipe: Recipe) : this(recipe.id ?: ObjectId().toString(), recipe.name, recipe.description)
 
     override fun toDto(): Recipe {
@@ -23,6 +23,16 @@ data class RecipeEntity(@Id val id: String, val name: String, val description: S
 data class RecipeImageEntity(@Id val id: String, val recipeId: String, val image: ByteArray) : MongoEntity<RecipeImage> {
     constructor(recipeImage: RecipeImage) : this(recipeImage.id
             ?: ObjectId().toString(), recipeImage.recipeId, recipeImage.base64Image.toByteArray())
+
+    override fun toDto(): RecipeImage {
+        return RecipeImage(id, recipeId, String(image))
+    }
+}
+
+@Document("recipe-thumbnail")
+data class RecipeThumbnailEntity(@Id val id: String, val recipeId: String, val image: ByteArray) : MongoEntity<RecipeImage> {
+    constructor(recipeThumbnail: RecipeImage) : this(recipeThumbnail.id
+            ?: ObjectId().toString(), recipeThumbnail.recipeId, recipeThumbnail.base64Image.toByteArray())
 
     override fun toDto(): RecipeImage {
         return RecipeImage(id, recipeId, String(image))

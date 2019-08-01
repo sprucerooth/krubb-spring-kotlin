@@ -9,4 +9,10 @@ interface RecipeDao : MongoRepository<RecipeEntity, String>
 @Repository
 interface RecipeImageDao : MongoRepository<RecipeImageEntity, String> {
     fun findAllByRecipeId(recipeId: String): List<RecipeImageEntity>
+    fun deleteAllByIdIn(recipeId: List<String>)
+}
+
+@Repository
+interface RecipeThumbailDao : MongoRepository<RecipeThumbnailEntity, String> {
+    fun findByRecipeIdIn(recipeIds: List<String>): List<RecipeThumbnailEntity>
 }
