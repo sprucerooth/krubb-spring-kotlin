@@ -35,7 +35,7 @@ class RecipeService(val recipeDataService: DataService<Recipe>, val recipeImageD
     @Transactional
     fun update(id: String, incomingUpdatedRecipe: Recipe): String {
         val existingRecipe = recipeDataService.getById(id)
-        val updatedRecipe = existingRecipe.copy(name = incomingUpdatedRecipe.name, description = incomingUpdatedRecipe.description)
+        val updatedRecipe = existingRecipe.copy(name = incomingUpdatedRecipe.name, description = incomingUpdatedRecipe.description, ingredients = incomingUpdatedRecipe.ingredients)
         recipeDataService.saveOne(updatedRecipe)
         if (incomingUpdatedRecipe.base64Thumbnail != null) thumbnailDataService.insertOne(RecipeImage(null, id, incomingUpdatedRecipe.base64Thumbnail))
         return id

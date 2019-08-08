@@ -1,5 +1,6 @@
 package com.fladerkod.krubb.persistence
 
+import com.fladerkod.krubb.dto.Ingredient
 import com.fladerkod.krubb.dto.Recipe
 import com.fladerkod.krubb.dto.RecipeImage
 import org.bson.types.ObjectId
@@ -11,11 +12,12 @@ interface MongoEntity<R> {
 }
 
 @Document("recipe")
-data class RecipeEntity(@Id val id: String, val name: String, val description: String?) : MongoEntity<Recipe> {
-    constructor(recipe: Recipe) : this(recipe.id ?: ObjectId().toString(), recipe.name, recipe.description)
+data class RecipeEntity(@Id val id: String, val name: String, val description: String?, val ingredients: Array<Ingredient>?) : MongoEntity<Recipe> {
+    constructor(recipe: Recipe) : this(recipe.id
+            ?: ObjectId().toString(), recipe.name, recipe.description, recipe.ingredients)
 
     override fun toDto(): Recipe {
-        return Recipe(id, name, description)
+        return Recipe(id, name, description, null, ingredients ?: emptyArray())
     }
 }
 
