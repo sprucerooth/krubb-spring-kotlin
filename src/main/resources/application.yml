@@ -1,9 +1,9 @@
 spring:
   data:
     mongodb:
-      authentication-database: admin
+      #authentication-database: admin
       database: krubb
       host: 127.0.0.1
       port: 27017
-      username: admin
-      password: admin
+      #username: admin
+      #password: admin
